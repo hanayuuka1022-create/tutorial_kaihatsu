@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>タスク管理アプリ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>タスク管理</h1>
+        <div id="task-stats">未着手: 0 / 進行中: 0 / 完了: 0</div>
+    </header>
+
+    <main>
+        <!-- 新規登録フォーム -->
+        <section id="add-task-section" aria-labelledby="add-task-heading">
+            <h2 id="add-task-heading" class="visually-hidden">新規タスク登録</h2>
+            <form id="add-task-form">
+                <label for="new-task-title" class="visually-hidden">タスクのタイトル</label>
+                <input type="text" id="new-task-title" placeholder="タスクのタイトルを入力" required>
+                <label for="new-task-due" class="visually-hidden">期限</label>
+                <input type="date" id="new-task-due">
+                <label for="new-task-tags" class="visually-hidden">タグ</label>
+                <input type="text" id="new-task-tags" placeholder="タグ (カンマ区切り)">
+                <button type="submit">追加</button>
+            </form>
+        </section>
+
+        <!-- 制御エリア -->
+        <section id="control-section" aria-labelledby="control-heading">
+            <h2 id="control-heading" class="visually-hidden">タスクのフィルタとソート</h2>
+            <input type="search" id="filter-keyword" placeholder="キーワードで検索" aria-label="キーワードで検索">
+            <input type="text" id="filter-tag" placeholder="タグで検索" aria-label="タグで検索">
+            <select id="filter-status" aria-label="ステータスでフィルタ">
+                <option value="all">すべてのステータス</option>
+                <option value="todo">未着手</option>
+                <option value="doing">進行中</option>
+                <option value="done">完了</option>
+            </select>
+            <select id="sort-by" aria-label="ソート順">
+                <option value="created_at_desc">作成日(新しい順)</option>
+                <option value="created_at_asc">作成日(古い順)</option>
+                <option value="due_asc">期限(昇順)</option>
+                <option value="title_asc">タイトル(A-Z)</option>
+            </select>
+            <button id="clear-filters-btn">フィルタクリア</button>
+        </section>
+
+        <!-- タスク一覧 -->
+        <section id="task-list-section" aria-labelledby="task-list-heading">
+            <h2 id="task-list-heading" class="visually-hidden">タスク一覧</h2>
+            <table id="task-table">
+                <thead>
+                    <tr>
+                        <th>完了</th>
+                        <th>タイトル</th>
+                        <th>ステータス</th>
+                        <th>期限</th>
+                        <th>タグ</th>
+                        <th>作成日時</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="task-list-body">
+                    <!-- タスク行はJSで動的に生成 -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 編集モーダル (初期状態は非表示) -->
+        <div id="edit-modal" class="modal" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="edit-modal-title">
+            <div class="modal-content">
+                <h2 id="edit-modal-title" class="visually-hidden">タスク編集</h2>
+                <button class="close-btn" aria-label="閉じる">&times;</button>
+                <form id="edit-task-form">
+                    <input type="hidden" id="edit-task-id">
+                    <div>
+                        <label for="edit-task-title">タイトル</label>
+                        <input type="text" id="edit-task-title" required>
+                    </div>
+                    <div>
+                        <label for="edit-task-due">期限</label>
+                        <input type="date" id="edit-task-due">
+                    </div>
+                    <div>
+                        <label for="edit-task-tags">タグ</label>
+                        <input type="text" id="edit-task-tags">
+                    </div>
+                    <div>
+                        <label for="edit-task-status">ステータス</label>
+                        <select id="edit-task-status">
+                            <option value="todo">未着手</option>
+                            <option value="doing">進行中</option>
+                            <option value="done">完了</option>
+                        </select>
+                    </div>
+                    <button type="submit">更新</button>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <button id="export-csv-btn">CSVエクスポート</button>
+        <p>&copy; 2025 Gemini CLI</p>
+    </footer>
+
+    <div id="toast-container" role="status" aria-live="polite"></div>
+
+    <script src="utils.js"></script>
+    <script src="repository.js"></script>
+    <script src="store.js"></script>
+    <script src="view.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
